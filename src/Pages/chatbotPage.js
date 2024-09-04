@@ -94,16 +94,59 @@ const ChatbotPage = () => {
         const formData = new FormData();
         files.forEach(file => formData.append('files', file));
 
-        const response = await fetch(`${API_BASE_URL}/analyze`, {
-          method: 'POST',
-          body: formData,
-        });
+        // const response = await fetch(`${API_BASE_URL}/analyze`, {
+        //   method: 'POST',
+        //   body: formData,
+        // });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = {data: {
+          "annexB": {
+              "requirementSpecifications": {
+                  "introduction": {
+                      "requirement": "The Authority has a requirement for the supply and delivery of [Enter number and type of devices]."
+                  },
+                  "purchaseRequirements": {
+                      "firmPurchase": {
+                          "description": "[Enter device specifications]",
+                          "quantity": "[Enter quantity]"
+                      },
+                      "vendorOffer": "The Vendor shall ensure their best and final offer is equal or lower than the market rates including any applicable bulk discounts. The Vendor shall provide a detailed breakdown of their offer in their submission to the Authority. In the event that the quoted rate is lower than the market rate, the Authority reserves the right to apply the lower rate."
+                  },
+                  "warranty": {
+                      "details": "In accordance to supplier provision. Onsite warranty of minimum 1 year and should cover labour, parts and material. In the event of any hardware part failure, supplier should be able to supply the replacement part without any need for exchange or question."
+                  },
+                  "pricingTable": {
+                      "itemDescription": "[Enter device specifications]",
+                      "quantity": "[Enter quantity]",
+                      "totalPrice": "[Enter total price in S$]"
+                  },
+                  "evaluationCriteria": "The Authority shall evaluate the Vendor's proposal based on the meeting the technical requirements fully and the lowest price.",
+                  "securityRequirements": {
+                      "deliveryPersonnel": "The successful Vendor is required to submit the particulars of the delivery personnel to the Authority upon request.",
+                      "informationDisclosure": "Without permission from the Authority, the Vendor shall not disclose any project information to anyone else except those involved in the project and who have been security cleared by the Authority.",
+                      "informationProtection": "The Vendor shall protect all purchase information with due care and diligence and report any loss or breach of information to the Authority without delay."
+                  },
+                  "delivery": {
+                      "address": "Cintech II, 75 Science Park Dr, Singapore 118255",
+                      "arrangementDetails": "Delivery date and time can be arranged with the Authority separately upon issuance of Purchase Order.",
+                      "deliveryTimeframe": "The Contractor shall deliver within 3 weeks upon issuance of Purchase order."
+                  },
+                  "paymentTerms": {
+                      "costBreakdown": "The Vendor is to provide detailed breakdown of costs for each component and indicate type and length of warranty.",
+                      "contactForClarification": {
+                          "name": "[Enter contact name]",
+                          "phone": "[Enter phone number]",
+                          "email": "[Enter email address]"
+                      }
+                  }
+              }
+          }
+      }}
+        // if (!response.ok) {
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
 
-        const result = await response.json();
+        const result = response.data;
         setDocumentStructure(result);
         setMessages(prevMessages => [
           ...prevMessages,
@@ -249,8 +292,8 @@ const ChatbotPage = () => {
   
       if (Array.isArray(value)) {
         return (
-          <div key={fullPath} className="nested-section">
-            <h3>{titleCaseKey}</h3>
+          <fieldset key={fullPath} className="nested-section">
+            <legend>{titleCaseKey}</legend>
             {value.map((item, index) => (
               <div key={`${fullPath}.${index}`} className="array-item">
                 <div className="array-item-header">
@@ -261,14 +304,14 @@ const ChatbotPage = () => {
               </div>
             ))}
             <button onClick={() => addItem(fullPath)} className="add-button">Add {titleCaseKey}</button>
-          </div>
+          </fieldset>
         );
       } else if (typeof value === 'object' && value !== null) {
         return (
-          <div key={fullPath} className="nested-section">
-            <h3>{titleCaseKey}</h3>
+          <fieldset key={fullPath}>
+            <label>{titleCaseKey}</label>
             {renderDocumentStructure(value, fullPath)}
-          </div>
+          </fieldset>
         );
       } else if (typeof value === 'string') { // Add type check for string
         const isPlaceholder = value.startsWith('[') && value.endsWith(']');
@@ -320,7 +363,7 @@ const ChatbotPage = () => {
           </form>
         </div>
         {documentStructure && (
-          <div className="document-structure">
+          <div className="document-structure" style={{'border': '0px'}}>
             <h2>Document Structure</h2>
             <div className="structure-content">
               {renderDocumentStructure(documentStructure)}
