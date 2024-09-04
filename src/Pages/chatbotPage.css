@@ -1,5 +1,5 @@
 .chatbot-container {
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   padding: 20px;
   font-family: 'Arial', sans-serif;
@@ -95,7 +95,7 @@
 }
 
 .structure-content {
-  max-height: 500px;
+  max-height: 75vh;
   overflow-y: auto;
 }
 
@@ -109,6 +109,14 @@
   margin-bottom: 15px;
 }
 
+fieldset {
+  border-radius: 20px !important;
+  min-width: 0 !important;
+  padding: 10px !important;
+  margin: 10px !important;
+  border: 1px solid lightgrey !important;
+}
+
 .input-section label {
   display: block;
   margin-bottom: 5px;
@@ -118,7 +126,7 @@
 
 .input-section textarea {
   width: 100%;
-  min-height: 60px;
+  min-height: 150px;
   padding: 10px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
@@ -189,4 +197,25 @@ h2, h3, h4 {
 
 .delete-button:hover {
   background-color: #d32f2f;
+}
+
+/* Nested fieldsets - first level */
+fieldset > label {
+  font-size: 1.5em; /* Smaller than the parent level */
+}
+
+
+/* Nested fieldsets - first level */
+fieldset > fieldset > label {
+  font-size: 1.25em; /* Smaller than the parent level */
+}
+
+/* Nested fieldsets - second level */
+fieldset > fieldset > fieldset > label {
+  font-size: 1em; /* Smaller than the previous level */
+}
+
+/* Nested fieldsets - third level */
+fieldset > fieldset > fieldset > fieldset > label {
+  font-size: 0.875em; /* Even smaller */
 }
